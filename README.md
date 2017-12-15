@@ -19,3 +19,8 @@ If that location is writable then that can be used.
 
 This app takes the avro schema for transactions and listens for messages sent to the transactions
 topic, and receives and deserializes those messages back into transaction pojos.
+
+
+
+## Spring Boot command
+mvn clean install spring-boot:run -Dspring.profiles.active=trxns -Denv=trxns

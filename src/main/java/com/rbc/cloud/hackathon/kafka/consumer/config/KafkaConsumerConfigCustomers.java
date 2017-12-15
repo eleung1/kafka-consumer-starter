@@ -1,7 +1,6 @@
 package com.rbc.cloud.hackathon.kafka.consumer.config;
 
-
-import com.rbc.cloud.hackathon.data.Transactions;
+import com.rbc.cloud.hackathon.data.Customers;
 import com.rbc.cloud.hackathon.kafka.consumer.util.JavaVersion;
 import com.rbc.cloud.hackathon.kafka.consumer.util.Util;
 import io.confluent.kafka.serializers.KafkaAvroDeserializerConfig;
@@ -31,9 +30,9 @@ import java.util.Properties;
 @Configuration
 @EnableKafka
 @PropertySource(value = "classpath:application.properties")
-@Profile("trxns")
-public class KafkaConsumerConfig {
-    private Logger logger = LoggerFactory.getLogger(KafkaConsumerConfig.class);
+@Profile("customers")
+public class KafkaConsumerConfigCustomers {
+    private Logger logger = LoggerFactory.getLogger(KafkaConsumerConfigCustomers.class);
 
     @Resource
     private Environment env;
@@ -42,7 +41,7 @@ public class KafkaConsumerConfig {
     private ResourceLoader resourceLoader;
 
     @Bean(name="ZeusListenerFactory")
-    ConcurrentKafkaListenerContainerFactory<String, Transactions> zeusConcurrentKafkaListenerFactory() {
+    ConcurrentKafkaListenerContainerFactory<String, Customers> zeusConcurrentKafkaListenerFactory() {
 
         validationChecks();
 
@@ -92,7 +91,7 @@ public class KafkaConsumerConfig {
             throw new RuntimeException(e);
         }
 
-        final ConcurrentKafkaListenerContainerFactory<String, Transactions> factory=new ConcurrentKafkaListenerContainerFactory<>();
+        final ConcurrentKafkaListenerContainerFactory<String, Customers> factory=new ConcurrentKafkaListenerContainerFactory<>();
         factory.setBatchListener(Boolean.valueOf(env.getProperty("batch.listener")));
         factory.setConsumerFactory(new DefaultKafkaConsumerFactory<>(properties));
         factory.getContainerProperties().setAckMode(AbstractMessageListenerContainer.AckMode.MANUAL);

@@ -15,8 +15,69 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>1.5.7.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
+
+  <!-- To activate local HSQLDB browser: mvn spring-boot:run -Dspring.profiles.active=localDBBrowser -Djava.awt.headless=false -->
+	<profiles>
+		<profile>
+			<id>trxns</id>
+			<activation>
+				<property>
+					<name>env</name>
+					<value>trxns</value>
+				</property>
+			</activation>
+			<build>
+				<resources>
+					<resource>
+						<directory>${basedir}/src/main/resources/avro</directory>
+					</resource>
+					<resource>
+						<directory>${basedir}/src/main/resources/trxns</directory>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+		<profile>
+      <id>cities</id>
+      <activation>
+        <property>
+          <name>env</name>
+          <value>cities</value>
+        </property>
+      </activation>
+      <build>
+        <resources>
+          <resource>
+            <directory>${basedir}/src/main/resources/avro</directory>
+          </resource>
+          <resource>
+            <directory>${basedir}/src/main/resources/cities</directory>
+          </resource>
+        </resources>
+      </build>
+    </profile>
+    <profile>
+      <id>customers</id>
+      <activation>
+        <property>
+          <name>env</name>
+          <value>customers</value>
+        </property>
+      </activation>
+      <build>
+        <resources>
+          <resource>
+            <directory>${basedir}/src/main/resources/avro</directory>
+          </resource>
+          <resource>
+            <directory>${basedir}/src/main/resources/customers</directory>
+          </resource>
+        </resources>
+      </build>
+    </profile>
+	</profiles>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -64,7 +125,7 @@
 		<dependency>
 			<groupId>io.confluent</groupId>
 			<artifactId>monitoring-interceptors</artifactId>
-			<version>3.3.1-SNAPSHOT</version>
+			<version>3.3.1</version>
 		</dependency>
 	</dependencies>
 
@@ -91,6 +152,12 @@
 					</execution>
 				</executions>
 			</plugin>
+			
+			<!-- ERic test -->
+			<plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
 		</plugins>
 	</build>
 

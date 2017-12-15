@@ -1,6 +1,5 @@
 package com.rbc.cloud.hackathon.kafka.consumer.service;
 
-import com.rbc.cloud.hackathon.data.Transactions;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.producer.Producer;
 import org.slf4j.Logger;
@@ -11,6 +10,8 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
+
+import com.rbc.cloud.hackathon.data.Cities;
 
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -25,23 +26,23 @@ import java.util.List;
 import java.util.UUID;
 
 @Component
-@Profile("trxns")
-public class KafkaConsumer {
+@Profile("cities")
+public class KafkaConsumerCities {
 
-  private Logger logger = LoggerFactory.getLogger(KafkaConsumer.class);
+  private Logger logger = LoggerFactory.getLogger(KafkaConsumerCities.class);
   @Value("${topic.name}")
   String topicName;
   @Value("${eric.output.path}")
   String outputFilePath;
 
-  @KafkaListener(id = "ZeusListener", topics = "#{'${topic.name}'}", containerFactory = "ZeusListenerFactory")
-  private void listen(final List<ConsumerRecord<String, Transactions>> messages, final Acknowledgment ack)
+  @KafkaListener(id = "ZeusListenerCities", topics = "#{'${topic.name}'}", containerFactory = "ZeusListenerFactory")
+  private void listen(final List<ConsumerRecord<String, Cities>> messages, final Acknowledgment ack)
       throws IOException {
     logger.info("Received {} messages, iterating..", messages.size());
     //PrintWriter writer = new PrintWriter(outputFilePath, "UTF-8");
-    for (ConsumerRecord<String, Transactions> record : messages) {
+    for (ConsumerRecord<String, Cities> record : messages) {
       String key = record.key();
-      Transactions value = record.value();
+      Cities value = record.value();
       ack.acknowledge();
       logger.info(" consumed message : key[{}] = payload[{}]", key, value);
       //writer.println(String.format("consumed message : key[{}] = payload[{}]", key, value));
